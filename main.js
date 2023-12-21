@@ -84,7 +84,7 @@ optimizations.forEach(({ bins, efficiency }, index) => {
       );
       rectangle.center = [width / 4 / 2, height / 4 / 2];
       rectangle.strokeColor = "black";
-      if (!item.item.name) rectangle.fillColor = randomHex();
+      if (item.item.name) rectangle.fillColor = randomHex();
       // const text = `${item.x}-${item.y}\n${item.width}-${item.height}\n${item.item?.name}`;
       // new paper.PointText({
       //   content: text,
