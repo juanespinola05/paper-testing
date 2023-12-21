@@ -1,6 +1,8 @@
 import paper from "@scratch/paper";
 import { optimizations } from "./optimizations.js";
 
+const optimizationsList = [optimizations]
+
 // paper.install(window)
 
 const width = 1830 / 4;
@@ -13,7 +15,18 @@ const randomHex = () => {
   return "#" + Math.floor(Math.random() * 16777215).toString(16);
 };
 
+let optimization = optimizations
+
 var canvas = document.getElementById("canvas");
+const select = document.getElementById("select");
+
+let value = 1
+select.addEventListener("change", (event) => {
+  if (event.target.value === value) return
+  value = event.target.value
+  optimization = optimizationsList[value]
+})
+
 // Create an empty project and a view for the canvas:
 const paperCanva = paper.setup(canvas);
 const view = paperCanva.project.view
@@ -65,14 +78,13 @@ optimizations.forEach(({ bins, efficiency }, index) => {
 
 
     bin.items.forEach((item, i) => {
-      if (!item.item.name) return
       const rectangle = new paper.Path.Rectangle(
         [item.x / 4 + panelPosition[0], item.y / 4 + panelPosition[1]],
         [item.width / 4, item.height / 4]
       );
       rectangle.center = [width / 4 / 2, height / 4 / 2];
       rectangle.strokeColor = "black";
-      rectangle.fillColor = randomHex();
+      if (!item.item.name) rectangle.fillColor = randomHex();
       // const text = `${item.x}-${item.y}\n${item.width}-${item.height}\n${item.item?.name}`;
       // new paper.PointText({
       //   content: text,
