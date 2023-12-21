@@ -47,6 +47,11 @@ canvas.addEventListener('wheel', (event) => {
 
 console.log(optimizations.length);
 optimizations.forEach(({ bins, efficiency }, index) => {
+  const text = new paper.PointText({
+    content: `N° ${index + 1}: ${efficiency}%`,
+    point: [0, index * FACTOR_HEIGHT - 10],
+    fontSize: 20,
+  });
   Object.values(bins).forEach((bin, i) => {
     const panelPosition = [i * FACTOR_WIDTH, index * FACTOR_HEIGHT]
     const path = new paper.Path.Rectangle(
@@ -56,6 +61,8 @@ optimizations.forEach(({ bins, efficiency }, index) => {
     path.closed = true;
     path.strokeColor = "black";
     path.strokeWidth = 2;
+
+
     bin.items.forEach((item, i) => {
       if (!item.item.name) return
       const rectangle = new paper.Path.Rectangle(
