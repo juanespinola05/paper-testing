@@ -46,6 +46,7 @@ canvas.addEventListener('wheel', (event) => {
 })
 
 console.log(optimizations.length);
+optimizations.sort((a, b) => b.efficiency - a.efficiency)
 optimizations.forEach(({ bins, efficiency }, index) => {
   const text = new paper.PointText({
     content: `N° ${index + 1}: ${efficiency}%`,
