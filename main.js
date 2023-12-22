@@ -58,12 +58,12 @@ canvas.addEventListener('wheel', (event) => {
   // view.draw()
 })
 
-console.log(optimizations.length);
+console.log(optimizations);
 optimizations.sort((a, b) => b.efficiency - a.efficiency)
-optimizations.forEach(({ bins, efficiency }, index) => {
+optimizations.slice(0,20).forEach(({ bins, efficiency }, index) => {
   const text = new paper.PointText({
     content: `N° ${index + 1}: ${efficiency}%`,
-    point: [0, index * FACTOR_HEIGHT - 10],
+    point: [0, index * FACTOR_HEIGHT - 30],
     fontSize: 20,
   });
   Object.values(bins).forEach((bin, i) => {
@@ -76,6 +76,12 @@ optimizations.forEach(({ bins, efficiency }, index) => {
     path.strokeColor = "black";
     path.strokeWidth = 2;
 
+    const text = new paper.PointText({
+      content: `${bin.usedArea / area}`,
+      point: [i * FACTOR_WIDTH, index * FACTOR_HEIGHT - 10],
+      fontSize: 20,
+    });
+
 
     bin.items.forEach((item, i) => {
       const rectangle = new paper.Path.Rectangle(
@@ -85,11 +91,12 @@ optimizations.forEach(({ bins, efficiency }, index) => {
       rectangle.center = [width / 4 / 2, height / 4 / 2];
       rectangle.strokeColor = "black";
       if (item.item.name) rectangle.fillColor = randomHex();
-      // const text = `${item.x}-${item.y}\n${item.width}-${item.height}\n${item.item?.name}`;
-      // new paper.PointText({
-      //   content: text,
-      //   point: [item.x / 4, item.y / 4],
-      // });
+      const text = `${item.width}-${item.height}`;
+      new paper.PointText({
+        content: text,
+        justification: "center",
+        point: [item.x / 4 + panelPosition[0] + item.width / 4 / 2, item.y / 4 + panelPosition[1] + item.height / 4 / 2],
+      });
     });
   });
 });
