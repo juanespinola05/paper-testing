@@ -9,7 +9,6 @@ const width = 1830 / 4;
 const height = 2600 / 4;
 const FACTOR_WIDTH = width + 100;
 const FACTOR_HEIGHT = height + 100;
-const area = 1830 * 2600;
 
 const randomHex = () => {
   return "#" + Math.floor(Math.random() * 16777215).toString(16);
@@ -59,13 +58,18 @@ canvas.addEventListener('wheel', (event) => {
 })
 
 console.log(optimizations);
-optimizations.sort((a, b) => b.efficiency - a.efficiency)
-optimizations.slice(0,20).forEach(({ bins, efficiency }, index) => {
+optimizations.sort((a, b) => b.remnantEfficiency - a.remnantEfficiency)
+optimizations.slice(0,20).forEach(({ bins, efficiency, score, remnantEfficiency }, index) => {
   const text = new paper.PointText({
     content: `N° ${index + 1}: ${efficiency}%`,
     point: [0, index * FACTOR_HEIGHT - 30],
     fontSize: 20,
   });
+  const area = new paper.PointText({
+    content: `Area: ${Object.values(score).join('-')}\n${remnantEfficiency}`,
+    point: [-200, index * FACTOR_HEIGHT],
+    fontSize: 20,
+  })
   Object.values(bins).forEach((bin, i) => {
     const panelPosition = [i * FACTOR_WIDTH, index * FACTOR_HEIGHT]
     const path = new paper.Path.Rectangle(
